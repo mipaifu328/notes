@@ -1,0 +1,4 @@
+# Indentation override for all JS under lib directory 设置在lib目录下所有JS的缩进为
+[*.js]
+indent_style = space
+indent_size = 2

@@ -1,0 +1,25 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2021-08-31 10:49:28
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2021-08-31 10:50:14
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONP</title>
+</head>
+<body>
+    <script>
+        window.callback = function(data) {
+            console.log(data)
+        }
+    </script>
+    <script src="http://192.168.1.197:2222/test.js"></script>
+</body>
+</html>

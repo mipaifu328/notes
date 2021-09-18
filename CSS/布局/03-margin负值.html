@@ -1,0 +1,59 @@
+<!--
+ * @Descripttion: margin负值
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2021-06-23 11:08:30
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2021-06-23 11:50:07
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>margin负值</title>
+    <!--
+        - margin-top 负值，元素向上移动
+        - margin-left 负值，元素向左移动
+        - margin-right 负值， *自身不受影响*，右侧元素向左移动
+        - margin-bottom 负值， *自身不受影响*，下方元素向上移动
+    -->
+    <style>
+        body{
+            margin: 20px;
+        }
+        .float-left{
+            float: left;
+        }
+        .clearfix::after{
+            content: '';
+            clear: both;
+            display: table;
+        }
+
+        .container{
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .container .item{
+            width: 100px;
+            height:100px;
+        }
+        .container .border-blue{
+            border-color: blue;
+        }
+        .container .border-red{
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item border-blue"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+</body>
+</html>

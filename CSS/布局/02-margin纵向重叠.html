@@ -1,0 +1,37 @@
+<!--
+ * @Descripttion: margin纵向重叠
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2021-06-23 11:08:30
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2021-06-23 11:43:38
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>margin纵向重叠</title>
+    <!--
+        Q: AAA与BBB之间的距离是多少  A：15px
+        相邻元素的margin-top和margin-bottom会发生重叠
+        空白内容的`<p></p>`会重叠
+    -->
+    <style>
+        p{
+            font-size: 16px;
+            line-height: 1;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <p>AAA</p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p>BBB</p>
+</body>
+</html>
