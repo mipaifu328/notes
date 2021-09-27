@@ -5,9 +5,9 @@
 ### 路由模式
 
 - hash
-  `createWebHashHistory()创建`,它在内部传递的实际 URL 之前使用了一个哈希字符（#）。由于这部分 URL 从未被发送到服务器，所以它`不需要在服务器层面上进行任何特殊处理`。不过，`它在 SEO 中确实有不好的影响`。如果你担心这个问题，可以使用 HTML5 模式
+  `createWebHashHistory()创建`,它在内部传递的实际 URL 之前使用了一个哈希字符（#）。由于这部分 URL 从未被发送到服务器，所以它`不需要在服务器层面上进行任何特殊处理`。不过，`它在 SEO 中确实有不好的影响`。主要通过`onhashchange监听变化`
 - H5 history
-  利用 `history.pushState` API 来完成 URL 跳转而无须重新加载页面。`需要后台配置支持`。
+  利用 `history.pushState` API 来完成 URL 跳转而无须重新加载页面。`需要后台配置支持`。`对SEO友好`，通过`pushState()/replaceState()/onpopstate（监听不到前面2个方法的变化）`。
   [HTML5 History 模式](https://router.vuejs.org/zh/guide/essentials/history-mode.html)
 
 ### 路由配置
@@ -150,3 +150,7 @@ const routes = [
 - 调用全局的 `afterEach` 钩子。
 - 触发 DOM 更新。
 - 调用 `beforeRouteEnter` 守卫中传给 `next` 的回调函数，创建好的组件实例会作为回调函数的参数传入。
+
+## 路由实现
+
+> [7 张图，从零实现一个简易版 Vue-Router，太通俗易懂了！](https://juejin.cn/post/7012272146907037732)
