@@ -134,4 +134,4 @@ toRefs 只会为源对象中包含的 property 生成 ref。如果要为特定�
 
 - ref 是一个对象（不丢失响应式），value 存储值
 - 通过.vaule 属性的 get 和 set 实现响应式
-- 用于模板、reactive 是，不需要.value，其他情况都需要
+- 用于模板、reactive 时，不需要.value，其他情况都需要

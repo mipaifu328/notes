@@ -83,3 +83,6 @@
 - patch(vNodes, newVNodes)
 - patchVnode(vNodes, newVNodes)
 - addVnodes/removeVnodes/updateChildren(parentElm, oldCh, newCh)
+
+
+[Vue 3 Virtual Dom Diff源码阅读](https://segmentfault.com/a/1190000038654183)
