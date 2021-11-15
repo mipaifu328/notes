@@ -24,3 +24,8 @@ this.setState({
 // 注意，不能直接对 this.state.obj 进行属性设置，这样违反不可变值
 ```
 
+## 页面渲染
+
+setState -> dirtyComponent
+render dirtyComponent -> vnode
+patch vnode

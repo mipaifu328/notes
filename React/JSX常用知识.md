@@ -109,6 +109,7 @@ export default JSXBaseDemo
 4. 和 DOM 事件不一样，和 Vue 事件也不一样
 
 ``` js
+
 class EventDemo extends React.Component {
     constructor(props) {
         super(props)
@@ -192,3 +193,8 @@ class EventDemo extends React.Component {
 }
 
 ```
+
+为什么要合成事件：
+- 更好的兼容和跨平台
+- 减少内存消耗，避免频繁解绑
+- 方便事件统一管理

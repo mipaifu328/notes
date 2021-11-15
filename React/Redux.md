@@ -4,6 +4,11 @@
 
 - store/state
 state 变化时需要返回全新的对象，而不是修改传入的参数。
+Redux 应用只有一个单一的 store
+    - 提供 getState() 方法获取 state；
+    - 提供 dispatch(action) 方法更新 state；
+    - 通过 subscribe(listener) 注册监听器;
+    - 通过 subscribe(listener) 返回的函数注销监听器。
 - action
 改变内部 state 惟一方法是 dispatch 一个 action
 - reducer
@@ -69,7 +74,40 @@ store.dispatch({ type: 'DECREMENT' });
 
 ## 单向数据流
 
+**严格的单向数据流**是 Redux 架构的设计核心。
+Redux 应用中数据的生命周期遵循下面 4 个步骤：
+1. 调用 store.dispatch(action)。
+2. Redux store 调用传入的 reducer 函数。
+3. 根 reducer 应该把多个子 reducer 输出合并成一个单一的 state 树。
+4. Redux store 保存了根 reducer 返回的完整 state 树。
+所有订阅 store.subscribe(listener) 的监听器都将被调用；监听器里可以调用 store.getState() 获得当前 state。
+
 ## redux-react
+Redux 默认并不包含 React 绑定库，需要单独安装。
+
+``` shell
+npm install --save react-redux
+```
+
+`<Provider> `让所有容器组件都可以访问 store，而不必显示地传递它。只需要在渲染根组件时使用即可。
+
+``` js
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import todoApp from './reducers'
+import App from './components/App'
+
+let store = createStore(todoApp)
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+```
 
 ## 异步action
 - redux-thunk
@@ -77,6 +115,7 @@ store.dispatch({ type: 'DECREMENT' });
 - redux-saga
 
 ## 中间件
+[Middleware](https://www.redux.org.cn/docs/advanced/Middleware.html)，它提供的是位于 action 被发起之后，到达 reducer 之前的扩展点。
 
 ![redux中间件](https://cdn.jsdelivr.net/gh/mipaifu328/image@master/study/redux-mid.2z26xnbb9j40.png)
 
