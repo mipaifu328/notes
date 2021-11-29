@@ -219,6 +219,7 @@ function createStore(options) {
 
 class Store {
   constructor(options) {
+    this.$options = options;
     this._state = reactive({
       data: options.state(),
     });

@@ -56,6 +56,8 @@ const router = createRouter({
 
 ### 路由监听
 
+[官网](https://next.router.vuejs.org/zh/guide/advanced/navigation-guards.html)
+
 ```js
 /** 1. $watch监听，watch $route 对象上的任意属性 **/
 const User = {
