@@ -1,0 +1,77 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2021-12-21 10:26:36
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2021-12-23 14:52:41
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点线面</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <script type="module">
+        import * as THREE from '../three.js-master/build/three.module.js';
+
+        let camera, scene, renderer;
+        let geometry;
+
+        init();
+
+        function init() {
+            // 场景
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color( 0x000000 );
+            // 透视相机
+            camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+            // 相机位置
+            camera.position.z = 70;   
+
+            geometry = new THREE.TorusGeometry( 10, 3, 16, 50 );
+
+            // mesh
+            const mesh = new THREE.Mesh( geometry,  new THREE.MeshBasicMaterial( { color: 0xaa99dd } ));
+            const mesh2 = new THREE.Mesh( geometry,  new THREE.MeshBasicMaterial( { color: 0xaa99dd } ));
+
+            // point
+            const points = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x888888 , size: 1} ) );
+            const points2 = new THREE.Points( geometry, new THREE.PointsMaterial( { color: 0x888888 } ) );
+
+            //LINE
+            const line = new THREE.Line( geometry, new THREE.LineBasicMaterial({color: 0xff0ff}) );
+            const line2 = new THREE.Line( geometry, new THREE.LineBasicMaterial({color: 0xff0ff}) );
+
+            mesh2.position.set(-30, 30 , 0 )
+            points2.position.set(0, 30 , 0 )
+            line2.position.set(30, 30 , 0 )
+
+
+            // 物体将会被添加到(0,0,0)坐标
+            scene.add( mesh );
+            scene.add( points );
+            scene.add( line );
+            scene.add( mesh2 );
+            scene.add( points2 );
+            scene.add( line2 );
+
+            // 渲染器
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.render( scene, camera );
+            document.body.appendChild( renderer.domElement );
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2021-12-21 10:26:36
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2021-12-24 14:15:37
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+        .text{
+            position: fixed;
+            top: 10vh;
+            left: 50vw;
+            z-index: 100;
+            color: #fff;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="text">html+css 描述信息</div>
+    <script type="module">
+        import * as THREE from '../three.js-master/build/three.module.js';
+
+        import { TextGeometry } from '../three.js-master/examples/jsm/geometries/TextGeometry.js';
+        import { FontLoader } from '../three.js-master/examples/jsm/loaders/FontLoader.js';
+        import { OrbitControls } from '../three.js-master/examples/jsm/controls/OrbitControls.js';
+
+        let camera, scene, renderer, light, controls;
+        let geometry, material, mesh, textGeo;
+
+        init();
+
+        function init() {
+
+
+            // 场景
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color( 0x000000 );
+            scene.fog = new THREE.Fog( 0x000000, 250, 1400 );
+            // 透视相机
+            camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1500 );
+            // 相机位置
+            camera.position.set( 0, 400, 700 );
+
+            createLight();
+
+            createText();
+
+            // 渲染器
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            addControl();
+        }
+
+        function createLight() {
+
+            const dirLight = new THREE.DirectionalLight( 0x23ffaa, 0.125 );
+            dirLight.position.set( 0, 0, 1 ).normalize();
+            scene.add( dirLight );
+
+            const pointLight = new THREE.PointLight( 0x012300, 1.5 );
+            pointLight.position.set( 0, 100, 90 );
+            scene.add( pointLight );
+
+        }
+
+        function addControl(){
+            controls = new OrbitControls( camera, renderer.domElement );
+            controls.listenToKeyEvents( window ); // optional
+
+            controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+            controls.dampingFactor = 0.05;
+
+            controls.screenSpacePanning = false;
+
+            controls.minDistance = 10;
+            controls.maxDistance = 500;
+
+            controls.maxPolarAngle = Math.PI / 2;
+        }
+
+        function animate() {
+
+            requestAnimationFrame( animate );
+
+            // required if controls.enableDamping or controls.autoRotate are set to true
+            controls.update();
+
+            renderer.render( scene, camera );
+
+        }
+        function createText() {
+            const loader = new FontLoader();
+            loader.load( '../three.js-master/examples/fonts/helvetiker_bold.typeface.json', function ( font ) {
+
+                const textGeo = new TextGeometry( "THREE.JS", {
+
+                    font: font,
+
+                    size: 70,
+                    height: 20,
+                    curveSegments: 4,
+
+                    bevelThickness: 2,
+                    bevelSize: 1.5,
+                    bevelEnabled: true
+
+                } );
+
+                textGeo.computeBoundingBox();
+
+				const centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
+                const textMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0xffffff } );
+
+                mesh = new THREE.Mesh( textGeo, textMaterial );
+                mesh.position.x = centerOffset;
+                mesh.position.y = 100;
+                mesh.position.z= 0;
+
+                scene.add( mesh );
+
+                animate();
+
+            } );
+        }
+    </script>
+</body>
+</html>

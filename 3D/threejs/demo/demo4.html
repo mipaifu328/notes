@@ -1,0 +1,74 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2021-12-21 10:26:36
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2021-12-24 09:55:09
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加载模型</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <script type="module">
+        import * as THREE from '../three.js-master/build/three.module.js';
+        import {GLTFLoader} from '../three.js-master/examples/jsm/loaders/GLTFLoader.js'
+        import { RoomEnvironment } from '../three.js-master/examples/jsm/environments/RoomEnvironment.js';
+ 
+        let camera, scene, renderer;
+        let geometry, material, mesh;
+
+        init();
+
+        function init() {
+            // 场景
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color( 0xffffff );
+            // 透视相机
+            camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
+            // 相机位置
+            camera.position.z = 3;   
+
+            const loader = new GLTFLoader().setPath( '../three.js-master/examples/models/gltf/' );;
+
+            loader.load( 'SheenChair.glb', function ( gltf ) {
+                mesh = gltf.scene;
+                scene.add( mesh );
+
+            } );
+
+            // 渲染器
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setAnimationLoop( animation );
+            document.body.appendChild( renderer.domElement );
+
+            const environment = new RoomEnvironment();
+            const pmremGenerator = new THREE.PMREMGenerator( renderer );
+            scene.environment = pmremGenerator.fromScene( environment ).texture;
+
+        }
+
+        function animation( time ) {
+
+            // mesh.rotation.x = time / 2000;
+            // mesh.rotation.y = time / 1000;
+
+            renderer.render( scene, camera );
+
+        }
+    </script>
+</body>
+</html>

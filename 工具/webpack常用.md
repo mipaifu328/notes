@@ -28,24 +28,115 @@ module: {
 },
 
 ```
-
-## 拆分
-1. **MiniCssExtractPlugin**： css拆分为单独文件
-
-**TerserJSPlugin**
-**OptimizeCSSAssetsPlugin**
+2. 样式相关loader, 包括**style-loader, css-loader, less-loader, postcss-loader, sass-loader, stylus-loader** 
+use loader 是`从右到左`进行解析 
 
 ```js
-plugins: [
-  // 抽离 css 文件
-  new MiniCssExtractPlugin({
-    filename: 'css/main.[contenthash:8].css'
-  })
-],
-optimization: {
-  // 压缩 css
-  minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader",
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: [
+                [
+                  'postcss-preset-env',
+                  {
+                    // 其他选项
+                  },
+                ],
+              ],
+            },
+          },
+        }]
+      },
+      {
+        test: /\.less$/i,
+        loader: [
+          // compiles Less to CSS
+          'style-loader',
+          'css-loader',
+          'less-loader',
+        ],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // 将 JS 字符串生成为 style 节点
+          'style-loader',
+          // 将 CSS 转化成 CommonJS 模块
+          'css-loader',
+          // 将 Sass 编译成 CSS
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.styl$/,
+        loader: "stylus-loader", // 将 Stylus 文件编译为 CSS
+      },
+    ],
+  },
+};
+
+```
+
+3. **babel-loader**： 使用 Babel 和 webpack 转译 JavaScript 文件。
+@babel/core、@babel/preset-env 、@babel/polyfill其实都是在做es6的语法转换和弥补缺失的功能，但是当我们在使用webpack打包js时，webpack并不知道应该怎么去调用这些规则去编译js。这时就需要babel-loader了，它作为一个中间桥梁，通过调用babel/core中的api来告诉webpack要如何处理js。
+
+``` js
+module: {
+  rules: [
+    {
+      test: /\.m?js$/,
+      exclude: /(node_modules|bower_components)/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+          {
+            useBuiltIns: 'usage'
+          }
+        }
+      }
+    }
+  ]
 }
+
+```
+
+配置"useBuiltIns": "usage",这样一方面只对使用的新功能做垫片，也不需要我们单独引入import '@babel/polyfill'了，它会在使用的地方自动注入。
+
+## 拆分
+1. **MiniCssExtractPlugin**： 将 CSS 提取到单独的文件。
+**CssMinimizerWebpackPlugin**: 使用 cssnano 优化和压缩 CSS。
+
+```js
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /.s?css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+    ],
+  },
+  optimization: {
+    minimizer: [
+      // 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
+      // `...`,
+      new CssMinimizerPlugin(),
+    ],
+  },
+  plugins: [new MiniCssExtractPlugin()],
+};
 ```
 
 2. **splitChunks**： js文件分模块打包
@@ -84,6 +175,7 @@ optimization: {
 ```
 
 ## 性能优化
+0. **webpack-bundle-analyzer** 包分析报告
 
 1. **IngorePlugin**: 忽略无用文件，不引用不打包，`手动配置`
 ``` js
@@ -188,4 +280,6 @@ module.exports = {
 }
 ```
 
-6. **Dllplugin**
+6. **Dllplugin** 不用于生产环境
+把复用性较高的第三方模块打包到动态链接库中，在不升级这些库的情况下，动态库不需要重新打包，每次构建只重新打包业务代码。
+

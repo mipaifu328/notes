@@ -1,0 +1,73 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2021-12-21 10:26:36
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2021-12-22 11:40:39
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建一个场景</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <script type="module">
+        import * as THREE from '../three.js-master/build/three.module.js';
+
+        let camera, scene, renderer;
+        let geometry, material, mesh;
+
+        init();
+
+        function init() {
+            // 场景
+            scene = new THREE.Scene();
+            // 透视相机
+            camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+            // 相机位置
+            camera.position.z = 1;   
+            // camera.position.x = 1;
+            // camera.lookAt(0,0,1)
+
+            // 几何，创建BoxGeometry立方体
+            geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
+
+            // 材质
+            material = new THREE.MeshNormalMaterial();
+			// material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+            // 物体：Mesh网格
+            mesh = new THREE.Mesh( geometry, material );
+            
+            // 物体将会被添加到(0,0,0)坐标
+            scene.add( mesh );
+
+            // 渲染器
+            renderer = new THREE.WebGLRenderer( { antialias: true } );
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setAnimationLoop( animation );
+            document.body.appendChild( renderer.domElement );
+
+        }
+
+        function animation( time ) {
+
+            mesh.rotation.x = time / 2000;
+            mesh.rotation.y = time / 1000;
+
+            renderer.render( scene, camera );
+
+        }
+    </script>
+</body>
+</html>
