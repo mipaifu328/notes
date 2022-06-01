@@ -4,7 +4,11 @@
 
 - store/state
   state 变化时需要返回全新的对象，而不是修改传入的参数。
-  Redux 应用只有一个单一的 store - 提供 getState() 方法获取 state； - 提供 dispatch(action) 方法更新 state； - 通过 subscribe(listener) 注册监听器; - 通过 subscribe(listener) 返回的函数注销监听器。
+  Redux 应用只有一个单一的 store
+  - 提供 getState() 方法获取 state；
+  - 提供 dispatch(action) 方法更新 state；
+  - 通过 subscribe(listener) 注册监听器;
+  - 通过 subscribe(listener) 返回的函数注销监听器。
 - action
   改变内部 state 惟一方法是 dispatch 一个 action
 - reducer

@@ -1,0 +1,86 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: mipaifu328
+ * @Date: 2022-06-01 11:39:58
+ * @LastEditors: mipaifu328
+ * @LastEditTime: 2022-06-01 14:50:33
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resize</title>
+  <style>
+    .content {
+      display: flex;
+      width: 1000px;
+      height: 600px;
+      flex-direction: row;
+    }
+
+    aside {
+      background-color: orange;
+      position: relative;
+      overflow: scroll;
+    }
+
+    .resize {
+      width: 200px;
+      height: 16px;
+      min-width: 100px;
+      transform: scaleY(100);
+      overflow: scroll;
+      resize: horizontal;
+      opacity: 0;
+    }
+
+    .line {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      bottom: 0;
+      background-color: royalblue;
+      opacity: 0;
+      transition: .3s;
+      pointer-events: none;
+    }
+
+    .resize:hover+.line,
+    .resize:active+.line {
+      opacity: 1;
+    }
+
+    section {
+      position: absolute;
+      inset: 0 5px 0 0;
+      padding: 8px;
+      overflow: auto;
+      background-color: antiquewhite;
+    }
+
+    main {
+      flex: 1;
+      background-color: cadetblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <aside>
+      <div class="resize"></div>
+      <div class="line"></div>
+      <section>side</section>
+    </aside>
+    <main>
+      main
+    </main>
+  </div>
+</body>
+
+</html>
